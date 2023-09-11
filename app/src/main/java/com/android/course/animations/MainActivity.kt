@@ -73,7 +73,7 @@ class MainActivity : AppCompatActivity() {
                 null
             )
                 ?: return null
-        cursor.use { cursor ->
+        cursor.use {
             if (cursor.moveToFirst()) {
                 val data = cursor.getBlob(0)
                 if (data != null) {
