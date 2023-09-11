@@ -33,10 +33,10 @@ class MainActivity : AppCompatActivity() {
     private fun getContacts() {
         checkPermissions()
         val phoneUri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI
+        phoneContacts = mutableListOf()
         val cursor = contentResolver.query(phoneUri, null, null, null, null) ?: return
 
         phoneContacts = cursor.use {
-            phoneContacts = mutableListOf()
             if (cursor.count >= 0) {
                 while (cursor.moveToNext()) {
                     val id =
