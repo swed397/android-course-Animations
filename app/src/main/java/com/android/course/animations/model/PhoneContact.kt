@@ -1,9 +1,9 @@
 package com.android.course.animations.model
 
-import java.io.InputStream
+import android.graphics.Bitmap
 
 data class PhoneContact(
     val name: String,
     val phoneNumber: String,
-    val contactPhoto: InputStream?
+    val contactPhoto: Bitmap?
 )
