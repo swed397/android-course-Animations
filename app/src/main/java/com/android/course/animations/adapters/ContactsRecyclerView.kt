@@ -47,6 +47,10 @@ class ContactsRecyclerView(
                 photoImageView.setImageBitmap(phoneContacts[position].contactPhoto)
             }
         }
+
+//        fun onItemMoved(oldPos: Int, newPos: Int) {
+//
+//        }
     }
 
     private class ConverterDiffUtil(

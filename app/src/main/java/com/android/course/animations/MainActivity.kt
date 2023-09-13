@@ -6,7 +6,9 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.android.course.animations.adapters.ContactsRecyclerSimpleItemTouchHelper
 import com.android.course.animations.adapters.ContactsRecyclerView
 import com.android.course.animations.model.PhoneContact
 import com.android.course.animations.repo.ContactsRepository
@@ -16,7 +18,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var phoneContacts: List<PhoneContact>
     private lateinit var recyclerView: RecyclerView
-    private lateinit var contactsRecyclerViewAdapter: ContactsRecyclerView
+    private lateinit var adapter: ContactsRecyclerView
     private val contactsRepo: ContactsRepository by lazy { ContactsRepository(contentResolver) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,12 +28,19 @@ class MainActivity : AppCompatActivity() {
         checkPermissions()
         phoneContacts = contactsRepo.getContacts()
         setComponents()
+        setRecyclerViewTouchHelper()
     }
 
+    private fun setRecyclerViewTouchHelper() = ItemTouchHelper(
+        ContactsRecyclerSimpleItemTouchHelper(
+            phoneContacts.toMutableList()
+        )
+    ).attachToRecyclerView(recyclerView)
+
     private fun setComponents() {
-        contactsRecyclerViewAdapter = ContactsRecyclerView(phoneContacts)
+        adapter = ContactsRecyclerView(phoneContacts)
         recyclerView = findViewById(R.id.main_recycler)
-        recyclerView.adapter = contactsRecyclerViewAdapter
+        recyclerView.adapter = adapter
     }
 
     private fun checkPermissions() {
