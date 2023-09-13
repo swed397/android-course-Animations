@@ -33,12 +33,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun setRecyclerViewTouchHelper() = ItemTouchHelper(
         ContactsRecyclerSimpleItemTouchHelper(
-            phoneContacts.toMutableList()
+            onMove = adapter::onMove,
+            onSwipe = adapter::onSwipe
         )
     ).attachToRecyclerView(recyclerView)
 
     private fun setComponents() {
-        adapter = ContactsRecyclerView(phoneContacts)
+        adapter = ContactsRecyclerView()
+        adapter.setData(phoneContacts)
         recyclerView = findViewById(R.id.main_recycler)
         recyclerView.adapter = adapter
     }

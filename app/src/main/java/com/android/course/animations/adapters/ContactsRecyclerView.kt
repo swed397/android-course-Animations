@@ -10,9 +10,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.android.course.animations.R
 import com.android.course.animations.model.PhoneContact
 
-class ContactsRecyclerView(
-    private var phoneContacts: List<PhoneContact>
-) : RecyclerView.Adapter<ContactsRecyclerView.ContactsRecyclerViewHolder>() {
+class ContactsRecyclerView :
+    RecyclerView.Adapter<ContactsRecyclerView.ContactsRecyclerViewHolder>() {
+
+    var phoneContacts: List<PhoneContact> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactsRecyclerViewHolder {
         val view: View = LayoutInflater.from(parent.context)
@@ -34,6 +35,19 @@ class ContactsRecyclerView(
         phoneContacts = newList
     }
 
+    fun onSwipe(viewHolder: RecyclerView.ViewHolder) {
+        val newList = phoneContacts.toMutableList()
+        newList.removeAt(viewHolder.bindingAdapterPosition)
+        setData(newList)
+    }
+
+    fun onMove(fromPos: Int, toPos: Int) {
+        val newList = phoneContacts.toMutableList()
+        val element = newList.removeAt(fromPos)
+        newList.add(toPos, element)
+        setData(newList)
+    }
+
     inner class ContactsRecyclerViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
         private val nameTextView: TextView by lazy { itemView.findViewById(R.id.name) }
@@ -47,10 +61,6 @@ class ContactsRecyclerView(
                 photoImageView.setImageBitmap(phoneContacts[position].contactPhoto)
             }
         }
-
-//        fun onItemMoved(oldPos: Int, newPos: Int) {
-//
-//        }
     }
 
     private class ConverterDiffUtil(
